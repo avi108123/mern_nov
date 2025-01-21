@@ -1,5 +1,7 @@
 const User = require("../models/userModel");
 const {validationResult} = require("express-validator")
+const nodemailer = require("nodemailer");
+const otpGenerator = require('otp-generator');
 var bcrypt = require("bcryptjs")
 var jwt = require("jsonwebtoken")
 let getAllusers = async (req, res) => {
@@ -113,5 +115,41 @@ let deleteUser = async(req,res)=>{
 
 
 
+let sendOtp = async(req,res)=>{
+  let email = req.query.email;
+  let otp = otpGenerator.generate(5);
+  const transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for port 465, false for other ports
+    auth: {
+      user: "abcdefgh108123@gmail.com",
+      pass: "beqh qaav unbq xvmm",
+    },
+  });
+  
+  // async..await is not allowed in global scope, must use a wrapper
+  async function main() {
+    // send mail with defined transport object
+    const info = await transporter.sendMail({
+      from: ' <abcdefgh108123@gmail.com>', // sender address
+      to:email, // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: `<b>"your otp is ${otp}</b>`, // html body
+    });
+  
+    // console.log("Message sent: %s", info.messageId);
+    // Message sent: <d786aa62-4e0a-070a-47ed-0b0666549519@ethereal.email>
+    res.status(200).send("message sent successfully")
+  }
+  
+  main().catch((err)=>{
+    res.status(500).send(err);
+  });
+}
 
-module.exports = {getAllusers,registerUser,loginUser,updateUser,deleteUser,verifyToken}
+
+
+
+module.exports = {getAllusers,registerUser,loginUser,updateUser,deleteUser,verifyToken,sendOtp}

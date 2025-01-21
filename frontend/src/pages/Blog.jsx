@@ -23,13 +23,13 @@ const Blog = () => {
   console.log(blog);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-red-300 md:bg-green-300 lg:bg-blue-300">
       <Navbar />
       <div className="container mx-auto py-8 px-4">
         {blog ? (
           <div className="bg-white shadow-md rounded-lg p-6">
             <img
-              src={blog.image}
+              src={blog.image.url}
               alt={blog.title}
               className="w-full h-64 object-cover rounded-lg mb-4"
             />

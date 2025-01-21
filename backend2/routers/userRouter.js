@@ -7,6 +7,7 @@ const {
   updateUser,
   deleteUser,
   verifyToken,
+  sendOtp,
 } = require("../controllers/userControllers");
 
 const validationMiddleware = require("../middlewares/validate");
@@ -16,6 +17,8 @@ const Router = express.Router();
 
 Router.get("/", getAllusers);
 Router.get("/verify",verifyToken)
+
+Router.get('/sendOtp',sendOtp)
 
 Router.post("/register",validationMiddleware, registerUser);
 
